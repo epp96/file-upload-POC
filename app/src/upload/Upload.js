@@ -18,6 +18,7 @@ class Upload extends Component {
     this.uploadFiles = this.uploadFiles.bind(this);
     this.sendRequest = this.sendRequest.bind(this);
     this.renderActions = this.renderActions.bind(this);
+    this.sendRequestwithChunks = this.sendRequestwithChunks.bind(this);
   }
 
   onFilesAdded(files) {
@@ -31,6 +32,7 @@ class Upload extends Component {
     const promises = [];
     this.state.files.forEach(file => {
       promises.push(this.sendRequest(file));
+      // promises.push(this.sendRequestwithChunks(file));
     });
     try {
       await Promise.all(promises);
@@ -41,7 +43,28 @@ class Upload extends Component {
       this.setState({ successfullUploaded: true, uploading: false });
     }
   }
+  sendRequestwithChunks(file) {
+    return new Promise((resolve, reject) => {
+      // const req = new XMLHttpRequest();
+      console.log(file);
+      console.log("sendRequestwithChunks");
+      const fileReader = new FileReader();
+      fileReader.onload = function(readerEvt) {
+        console.log("fileLoaded");
+        console.log(readerEvt);
+      };
+      fileReader.onloadend = function(readerEvt) {
+        console.log("fileLoadedend");
+        console.log(readerEvt);
+      };
+      fileReader.onprogress = readerEvt => {
+        console.log("progress");
+        console.log(readerEvt.target.result);
+      };
 
+      fileReader.readAsArrayBuffer(file);
+    });
+  }
   sendRequest(file) {
     return new Promise((resolve, reject) => {
       const req = new XMLHttpRequest();

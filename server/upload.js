@@ -7,6 +7,7 @@ module.exports = function upload(req, res) {
   fs.mkdirSync(form.uploadDir, { recursive: true });
   form.isAutoRename = false;
   form.keepExtensions = true;
+  form.maxFileSize = 600 * 1024 * 1024;
 
   form.on("file", (field, file) => {
     // Do something with the file
