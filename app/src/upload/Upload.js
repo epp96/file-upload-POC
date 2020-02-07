@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Dropzone from "../dropzone/Dropzone";
 import "./Upload.css";
 import Progress from "../progress/Progress";
+import axios from "axios";
 
 class Upload extends Component {
   constructor(props) {
@@ -72,8 +73,9 @@ class Upload extends Component {
 
       const formData = new FormData();
       formData.append("file", file, file.name);
+      console.log("hello");
 
-      req.open("POST", "http://localhost:8000/upload");
+      req.open("POST", "http://localhost:8080/upload");
       req.send(formData);
     });
   }
@@ -102,9 +104,20 @@ class Upload extends Component {
     if (this.state.successfullUploaded) {
       return (
         <button
-          onClick={() =>
-            this.setState({ files: [], successfullUploaded: false })
-          }
+          onClick={() => {
+            // axios
+            //   .post("localhost:8080/clean", {
+            //     "Access-Control-Allow-Origin": "*"
+            //   })
+            //   .then(response => {
+            //     console.log(response);
+
+            //     this.setState({ files: [], successfullUploaded: false });
+            //   })
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", "http://localhost:8080/clean");
+            xhr.send("formData");
+          }}
         >
           Clear
         </button>
@@ -124,7 +137,7 @@ class Upload extends Component {
   render() {
     return (
       <div className="Upload">
-        <span className="Title">Upload Files</span>
+        <span className="Title">Upload Files bitches</span>
         <div className="Content">
           <div>
             <Dropzone

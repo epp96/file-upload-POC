@@ -1,0 +1,17 @@
+version: "3"
+services:
+  ui-file-upload:
+    build: ./app
+    volumes:
+      - ./app:/app
+      - /app/node_modules
+    ports:
+      - 3000:3000
+  file-upload:
+    build: ./server
+    restart: always
+    volumes:
+      - ./server:/app
+      - /app/node_modules
+    ports:
+      - 8080:8080
