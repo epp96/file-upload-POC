@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Dropzone from "../dropzone/Dropzone";
 import "./Upload.css";
 import Progress from "../progress/Progress";
-import axios from "axios";
+// import axios from "axios";
 
 class Upload extends Component {
   constructor(props) {
@@ -115,8 +115,9 @@ class Upload extends Component {
             //     this.setState({ files: [], successfullUploaded: false });
             //   })
             const xhr = new XMLHttpRequest();
-            xhr.open("POST", "http://localhost:8080/clean");
+            xhr.open("POST", "http://localhost:8080/clean", false);
             xhr.send("formData");
+            this.setState({ files: [], successfullUploaded: false });
           }}
         >
           Clear
